@@ -8,40 +8,87 @@ import Card from "./card.jsx";
 import TaskAddModal from "./TaskAdd.jsx";
 import "./utils.css";
 
-const card = {
-  title: "first task test",
-  desc: "this is descritption, lets see how it works",
-  created: new Date().toLocaleString(),
-  modified: "Not Modified Yet",
-  status: "Not started",
-};
+const tasks = [
+  {
+    title: "Design Homepage",
+    desc: "Create wireframes and mockups for the new homepage redesign.",
+    created: new Date().toLocaleString(),
+    modified: "Not Modified Yet",
+    status: "Not started",
+  },
+  {
+    title: "Fix Login Bug",
+    desc: "Resolve issue where users can't log in with special characters.",
+    created: new Date().toLocaleString(),
+    modified: "Not Modified Yet",
+    status: "In progress",
+  },
+  {
+    title: "Write Unit Tests",
+    desc: "Add test cases for the user authentication module.",
+    created: new Date().toLocaleString(),
+    modified: "Not Modified Yet",
+    status: "Not started",
+  },
+  {
+    title: "Deploy to Production",
+    desc: "Push the latest stable build to the production server.",
+    created: new Date().toLocaleString(),
+    modified: "Not Modified Yet",
+    status: "Completed",
+  },
+  {
+    title: "Update Documentation",
+    desc: "Review and update API docs for all major endpoints.",
+    created: new Date().toLocaleString(),
+    modified: "Not Modified Yet",
+    status: "In progress",
+  },
+];
 
 function App() {
-  const [openModal, setOpenModal] = useState(false);
-  console.log(openModal, setOpenModal);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [todos, setTodos] = useState(tasks);
+
+  const closeModal = () => setIsModalOpen(false);
+
+  const handleSaveTask = (task) => {
+    console.log("calling from parent: ", task);
+    // tasks.push(task);
+    setTodos([...todos, task]);
+    closeModal();
+  };
 
   return (
     <div>
       <header className="d-flex">
         <div className="logo">
           <img src={checked} alt="logo" />
-          <h3>Tick-Tick</h3>
+          <h2>Tick-Tick</h2>
         </div>
         <div className="addTask">
-          <div className="addTaskLogo" onClick={() => setOpenModal(true)}>
+          <div className="addTaskLogo" onClick={() => setIsModalOpen(true)}>
             <img src={add} alt="" />
             <span>Add task</span>
           </div>
-          <div>
+          <div className="coffee">
             <img src={coffee} alt="coffee" />
             <span>Buy Me a Coffee</span>
           </div>
         </div>
       </header>
+      <div className="dialog-box">
+        {/* codintional rendering */}
+        {isModalOpen && (
+          <TaskAddModal close={closeModal} saveTask={handleSaveTask} />
+        )}
+      </div>
 
-      <div className="tasks-box">
-        <Card {...card} />
-        {openModal && <TaskAddModal Modal={setOpenModal} />}
+      <div className="task-box">
+        {todos.map((t) => {
+          // console.log(t);
+          return <Card detail={t} />;
+        })}
       </div>
     </div>
   );
