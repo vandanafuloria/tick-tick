@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import checked from "./assets/checked.png";
+import coffee from "./assets/coffee.png";
+import add from "./assets/add.png";
+import Card from "./card.jsx";
+
+import TaskAddModal from "./TaskAdd.jsx";
+import "./utils.css";
+
+const card = {
+  title: "first task test",
+  desc: "this is descritption, lets see how it works",
+  created: new Date().toLocaleString(),
+  modified: "Not Modified Yet",
+  status: "Not started",
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [openModal, setOpenModal] = useState(false);
+  console.log(openModal, setOpenModal);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <header className="d-flex">
+        <div className="logo">
+          <img src={checked} alt="logo" />
+          <h3>Tick-Tick</h3>
+        </div>
+        <div className="addTask">
+          <div className="addTaskLogo" onClick={() => setOpenModal(true)}>
+            <img src={add} alt="" />
+            <span>Add task</span>
+          </div>
+          <div>
+            <img src={coffee} alt="coffee" />
+            <span>Buy Me a Coffee</span>
+          </div>
+        </div>
+      </header>
+
+      <div className="tasks-box">
+        <Card {...card} />
+        {openModal && <TaskAddModal Modal={setOpenModal} />}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
