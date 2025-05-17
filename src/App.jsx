@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useId, useState } from "react";
+
 import "./App.css";
 import checked from "./assets/checked.png";
 import coffee from "./assets/coffee.png";
@@ -6,6 +7,7 @@ import add from "./assets/add.png";
 import Card from "./card.jsx";
 
 import TaskAddModal from "./TaskAdd.jsx";
+
 import "./utils.css";
 
 const tasks = [
@@ -48,12 +50,21 @@ const tasks = [
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [todos, setTodos] = useState(tasks);
+  const [todos, setTodos] = useState([]);
 
   const closeModal = () => setIsModalOpen(false);
 
+  console.log(todos);
+
+  function deleteTask(task) {
+    console.log("deleting task ");
+    console.log(task);
+
+    setTodos(todos.filter((t) => t.id != task.id));
+  }
+
   const handleSaveTask = (task) => {
-    console.log("calling from parent: ", task);
+    console.log("calling from parent: ");
     // tasks.push(task);
     setTodos([...todos, task]);
     closeModal();
@@ -87,7 +98,8 @@ function App() {
       <div className="task-box">
         {todos.map((t) => {
           // console.log(t);
-          return <Card detail={t} />;
+
+          return <Card detail={t} deleteTask={deleteTask} />;
         })}
       </div>
     </div>

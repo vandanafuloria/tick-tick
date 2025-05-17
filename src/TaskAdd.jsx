@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useId, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TaskAddModal({ close, saveTask }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("Description");
 
   const handleSave = () => {
-    const task = { title, description, status: "not-started" };
+    const task = { title, description, status: "not-started", id: uuidv4() };
 
     saveTask(task);
+    console.log(task);
   };
 
   return (
