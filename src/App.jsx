@@ -51,6 +51,9 @@ const tasks = [
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [todos, setTodos] = useState([]);
+  const [text, setText] = useState("Edit");
+
+  const [readOnly, setReadOnly] = useState(true);
 
   const closeModal = () => setIsModalOpen(false);
 
@@ -62,6 +65,29 @@ function App() {
 
     setTodos(todos.filter((t) => t.id != task.id));
   }
+  function editHandler(text) {
+    if (text == "Edit") {
+      setReadOnly(false);
+      setText("Save");
+    } else {
+      setReadOnly(true);
+      setText("Edit");
+    }
+  }
+
+  const handleEditTask = (task) => {
+    // console.log(task);
+    task.modified = new Date().toLocaleString("en-US", {
+      month: "long", // "May"
+      day: "numeric", // "17"
+      year: "numeric", // "2025"
+      hour: "2-digit", // "02"
+      minute: "2-digit", // "35"
+
+      hour12: true, // Use 24-hour format
+    });
+    setTodos(todos.map((t) => (t.id != task.id ? t : task)));
+  };
 
   const handleSaveTask = (task) => {
     console.log("calling from parent: ");
@@ -74,8 +100,7 @@ function App() {
     <div>
       <header className="d-flex">
         <div className="logo">
-          <img src={checked} alt="logo" />
-          <h2>Tick-Tick</h2>
+          <img src={checked} alt="logo" />,<h2>Tick-Tick</h2>
         </div>
         <div className="addTask">
           <div className="addTaskLogo" onClick={() => setIsModalOpen(true)}>
@@ -99,7 +124,16 @@ function App() {
         {todos.map((t) => {
           // console.log(t);
 
-          return <Card detail={t} deleteTask={deleteTask} />;
+          return (
+            <Card
+              detail={t}
+              deleteTask={deleteTask}
+              editTask={handleEditTask}
+              saveTask={handleSaveTask}
+              text={text}
+              readOnly={readOnly}
+            />
+          );
         })}
       </div>
     </div>

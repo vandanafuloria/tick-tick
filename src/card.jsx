@@ -1,46 +1,58 @@
 import { use, useState } from "react";
 
-export default function Card({ detail, deleteTask }) {
+export default function Card({
+  detail,
+  deleteTask,
+  editTask,
+  saveTask,
+  text,
+  readOnly,
+}) {
   // const [isGreen, setIsGreen] = useState(false);
   // const [isSelect, setSelect] = useState("NOT_STARTED");
   // const [IsColor, setIsColor] = useState("plum");
-  const [status, setStatus] = useState("NOT_STARTED");
+  // const [status, setStatus] = useState("NOT_STARTED");
 
-  // function setGreenColor() {
-  //   setIsGreen(true);
-  //   console.log("it green color");
-  // }
-  // function removeGreenColor() {
-  //   setIsGreen(false);
-  // }
+  const [titl, setTitle] = useState(detail.title);
+  const [desc, setDescription] = useState(detail.description);
 
-  // function checkSelectedValue(e) {
-  //   const val = e.target.value;
-  //   console.log;
-  //   setSelect({ val });
+  const [isEditing, setIsEditing] = useState(false);
 
-  //   if (isSelect === "not started") setIsColor("red");
-  //   else if (isSelect === "in progress") setIsColor("yellow");
-  //   else setIsColor("green");
+  const { title, description, created, modified, status } = detail;
+  // console.log(detail);
+  // console.log(titl);
 
-  //   console.log(val);
-  // }
-
-  // function deleteTask(e) {
-
-  // }
-  const { title, description, created, modified, id } = detail;
-
-  //   console.log(props);
   return (
     <div className="card">
-      <h6>{id}</h6>
-      <h1>{title}</h1>
-      <p>{description}</p>
-      <span>Created by:{created}</span>
-      <span>Modified by: {modified}</span>
+      <input
+        type="text"
+        value={titl}
+        readOnly={!isEditing}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <textarea
+        type="text"
+        value={desc}
+        readOnly={!isEditing}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <span>Created by : {created}</span>
+      <span>Modified by : {modified}</span>
       <div className="editors">
-        <button>Edit</button>
+        <button
+          onClick={() => {
+            if (isEditing)
+              editTask({
+                ...detail,
+                title: titl,
+                description: desc,
+                status: status,
+              });
+            setIsEditing(!isEditing);
+          }}
+        >
+          {isEditing ? "Save" : "Edit"}
+        </button>
 
         <button
           // onMouseOver={setGreenColor}
@@ -65,7 +77,8 @@ export default function Card({ detail, deleteTask }) {
               : "green",
         }}
         value={status}
-        onChange={(e) => setStatus(e.target.value)}
+        // onChange={(e) => setStatus(e.target.value)}
+        onChange={(e) => editTask({ ...detail, status: e.target.value })}
       >
         <option value="NOT_STARTED">Not started</option>
         <option value="IN_PROGRESS">In progress</option>

@@ -95,15 +95,25 @@ gap:0.4rem;
 }
 .task{
   max-width: 400px;
+  width: 400px;
   max-height: 300px;
-  border:greenyellow 3px solid;
+
 padding:1rem;
   margin:auto ;
   height: 300px;
-  background: rgba(0,0,0,0.5);
+ background-color: white;
 
   justify-content: center;
   align-items: center;
+}
+.task textarea{
+  width: 400px;
+  height: 200px;
+  padding:3px;
+  background-color: rgb(201, 222, 229);
+}
+.task textarea:focus{
+  outline: none;
 }
 .addTask img{
   width: 30px;
@@ -112,11 +122,20 @@ padding:1rem;
 .taskInput{
   width: 100%;
   margin:auto;
+  background-color: rgb(237, 237, 237);
+
  
 }
 .taskInput input{
   width: 100%;
    font-size: x-large;
+   padding:3px;
+   background-color: rgb(237, 237, 237);
+   border:rgb(255, 119, 0) 1px solid;
+  
+}
+.taskInput input:focus{
+  outline:none;
 }
 .task p{
   color:yellowgreen;
